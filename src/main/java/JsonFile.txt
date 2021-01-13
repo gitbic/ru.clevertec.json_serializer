@@ -1,0 +1,34 @@
+{"age":18,"weight":70.4,"height":175.2,"sex":"MALE"}
+
+{
+  "age": 18,
+  "weight": 70.4,
+  "height": 175.2,
+  "sex": "MALE"
+}
+
+{
+  "name": "Alex",
+  "stipend": 152.0,
+  "specs": [
+    "engineer",
+    "constructor",
+    "master-flomaster"
+  ],
+  "languages": [
+    "Russian",
+    "Eanglish",
+    "Italian"
+  ],
+  "passedTests": {
+    "physics": false,
+    "math": true,
+    "sopromat": true
+  },
+  "physiologicalData": {
+    "age": 18,
+    "weight": 70.4,
+    "height": 175.2,
+    "sex": "MALE"
+  }
+}
