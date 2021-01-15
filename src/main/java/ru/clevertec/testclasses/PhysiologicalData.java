@@ -9,6 +9,7 @@ public class PhysiologicalData {
     private double weight;
     private double height;
     private Sex sex;
+    Box box = new Box();
 
     public PhysiologicalData(int age, double weight, double height, Sex sex) {
         this.age = age;
