@@ -7,7 +7,9 @@ public class Constant {
     public static final String BRACE_RIGHT = "}";
     public static final String COMMA = ",";
     public static final String COLON = ":";
+    public static final String PRETTY_COLON = ": ";
     public static final String NULL_STR = "null";
+    public static final String INDENT = "  ";
 
 
 

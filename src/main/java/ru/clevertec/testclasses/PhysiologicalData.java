@@ -1,5 +1,9 @@
 package ru.clevertec.testclasses;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class PhysiologicalData {
     private int age;
     private double weight;
