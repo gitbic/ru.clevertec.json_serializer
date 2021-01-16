@@ -76,7 +76,7 @@ public class TestJSong {
         String jSongSimpleString = jSong.setProcessedObject(student).serialize();
         String gsonSimpleString = gson.toJson(student);
 
-        assertEquals(jSongSimpleString, gsonSimpleString);
+        assertEquals(gsonSimpleString, jSongSimpleString);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class TestJSong {
         gson = gson.newBuilder().setPrettyPrinting().create();
         String gsonPrettyString = gson.toJson(student);
 
-        assertEquals(jSongPrettyString, gsonPrettyString);
+        assertEquals(gsonPrettyString, jSongPrettyString);
     }
 
     @Test

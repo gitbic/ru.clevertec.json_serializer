@@ -24,8 +24,16 @@ public class SimpleStringJoiner implements CustomStringJoiner {
     }
 
     @Override
-    public String toString() {
-        return prefix + stringBuilder.toString() + suffix;
+    public StringBuilder append(StringBuilder string) {
+        addDelimiter();
+        stringBuilder.append(string);
+        return stringBuilder;
+    }
+
+    @Override
+    public void createResultingString() {
+        stringBuilder.insert(Constant.STRING_BUILDER_ZERO_POSITION, prefix)
+                .append(suffix);
     }
 
     @Override
@@ -36,7 +44,8 @@ public class SimpleStringJoiner implements CustomStringJoiner {
     }
 
     @Override
-    public String getResultingString() {
-        return toString();
+    public StringBuilder getResultingString() {
+        createResultingString();
+        return stringBuilder;
     }
 }

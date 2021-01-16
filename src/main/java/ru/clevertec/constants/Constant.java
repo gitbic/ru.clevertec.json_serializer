@@ -14,6 +14,7 @@ public class Constant {
     public static final int STRING_BUILDER_ZERO_LENGTH = 0;
     public static final int ZERO_OBJECT_LEVEL = 0;
     public static final int ONE_OBJECT_LEVEL = 1;
+    public static final int STRING_BUILDER_ZERO_POSITION = 0;
 
 
 

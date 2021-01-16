@@ -46,41 +46,41 @@ public class JSong {
     }
 
     public String serialize() throws IllegalAccessException {
-        return serializeObject(this.processedObject);
+        return serializeObject(this.processedObject).toString();
     }
 
-    private String serializeCollection(Object currentObject) throws IllegalAccessException {
+    private StringBuilder serializeCollection(Object currentObject) throws IllegalAccessException {
 
-        CustomStringJoiner mainJsonBuilder = CustomStringJoinerFactory.createInstance(
+        CustomStringJoiner jsonBuilder = CustomStringJoinerFactory.createInstance(
                 StringJoinerSet.BRACKET, prettyString);
 
         Collection<?> collection = (Collection<?>) currentObject;
 
         for (Object collectionElement : collection) {
-            String fieldValue = serializeDifferentObject(collectionElement);
-            mainJsonBuilder.append(fieldValue);
+            StringBuilder fieldValue = serializeDifferentObject(collectionElement);
+            jsonBuilder.append(fieldValue);
         }
-        return mainJsonBuilder.getResultingString();
+        return jsonBuilder.getResultingString();
     }
 
-    private String serializeArray(Object currentObject) throws IllegalAccessException {
+    private StringBuilder serializeArray(Object currentObject) throws IllegalAccessException {
 
-        CustomStringJoiner mainJsonBuilder = CustomStringJoinerFactory.createInstance(
+        CustomStringJoiner jsonBuilder = CustomStringJoinerFactory.createInstance(
                 StringJoinerSet.BRACKET, prettyString);
 
         int arrayLength = Array.getLength(currentObject);
 
         for (int i = 0; i < arrayLength; i++) {
             Object arrayElement = Array.get(currentObject, i);
-            String fieldValue = serializeDifferentObject(arrayElement);
-            mainJsonBuilder.append(fieldValue);
+            StringBuilder fieldValue = serializeDifferentObject(arrayElement);
+            jsonBuilder.append(fieldValue);
         }
-        return mainJsonBuilder.getResultingString();
+        return jsonBuilder.getResultingString();
     }
 
-    private String serializeMap(Object currentObject) throws IllegalAccessException {
+    private StringBuilder serializeMap(Object currentObject) throws IllegalAccessException {
 
-        CustomStringJoiner mainJsonBuilder = CustomStringJoinerFactory.createInstance(
+        CustomStringJoiner jsonBuilder = CustomStringJoinerFactory.createInstance(
                 StringJoinerSet.BRACE, prettyString);
 
         Map<?, ?> map = (Map<?, ?>) currentObject;
@@ -88,20 +88,20 @@ public class JSong {
         for (Map.Entry<?, ?> entry : map.entrySet()) {
 
             String fieldName = String.format(Format.DOUBLE_QUOTE_FIELD, entry.getKey());
-            String fieldValue = serializeDifferentObject(entry.getValue());
+            StringBuilder fieldValue = serializeDifferentObject(entry.getValue());
 
-            mainJsonBuilder.append(fieldName)
+            jsonBuilder.append(fieldName)
                     .append(getColon())
                     .append(fieldValue);
         }
-        return mainJsonBuilder.getResultingString();
+        return jsonBuilder.getResultingString();
     }
 
 
-    private String serializeObject(Object currentObject) throws IllegalAccessException {
+    private StringBuilder serializeObject(Object currentObject) throws IllegalAccessException {
         Field[] fields = currentObject.getClass().getDeclaredFields();
 
-        CustomStringJoiner mainJsonBuilder = CustomStringJoinerFactory.createInstance(
+        CustomStringJoiner jsonBuilder = CustomStringJoinerFactory.createInstance(
                 StringJoinerSet.BRACE, prettyString);
 
         for (Field field : fields) {
@@ -111,15 +111,15 @@ public class JSong {
 
             Object fieldElement = field.get(currentObject);
 
-            String fieldValue = serializeDifferentObject(fieldElement);
+            StringBuilder fieldValue = serializeDifferentObject(fieldElement);
 
-            mainJsonBuilder.append(fieldName)
+            jsonBuilder.append(fieldName)
                     .append(getColon())
                     .append(fieldValue);
 
             field.setAccessible(false);
         }
-        return mainJsonBuilder.getResultingString();
+        return jsonBuilder.getResultingString();
     }
 
     private String getColon() {
@@ -147,12 +147,12 @@ public class JSong {
                 && fieldType != Character.class;
     }
 
-    private String serializeDifferentObject(Object object) throws IllegalAccessException {
-        String value = null;
+    private StringBuilder serializeDifferentObject(Object object) throws IllegalAccessException {
+        StringBuilder value = new StringBuilder();
 
         if (object == null) {
 
-            value = Constant.NULL_STR;
+            value.append(Constant.NULL_STR);
 
         } else if (object.getClass().isArray()) {
 
@@ -172,10 +172,12 @@ public class JSong {
 
         } else {
 
-            value = object.toString();
+           String strValue = object.toString();
 
             if (isValueNeedDoubleQuote(object.getClass())) {
-                value = String.format(Format.DOUBLE_QUOTE_VALUE, value);
+                value.append(String.format(Format.DOUBLE_QUOTE_VALUE, strValue));
+            } else {
+                value.append(strValue);
             }
         }
 

@@ -26,14 +26,10 @@ public class PrettyStringJoiner implements CustomStringJoiner {
     }
 
     @Override
-    public String toString() {
-        return prefix
-                + Constant.LINE_SEPARATOR
-                + Constant.INDENT.repeat(objectLevel)
-                + stringBuilder.toString()
-                + Constant.LINE_SEPARATOR
-                + Constant.INDENT.repeat(objectLevel - Constant.ONE_OBJECT_LEVEL)
-                + suffix;
+    public StringBuilder append(StringBuilder string) {
+        addDelimiter();
+        stringBuilder.append(string);
+        return stringBuilder;
     }
 
     @Override
@@ -46,9 +42,19 @@ public class PrettyStringJoiner implements CustomStringJoiner {
     }
 
     @Override
-    public String getResultingString() {
-        String str = toString();
+    public void createResultingString() {
+        stringBuilder.insert(Constant.STRING_BUILDER_ZERO_POSITION, Constant.INDENT.repeat(objectLevel))
+                .insert(Constant.STRING_BUILDER_ZERO_POSITION, Constant.LINE_SEPARATOR)
+                .insert(Constant.STRING_BUILDER_ZERO_POSITION, prefix)
+                .append(Constant.LINE_SEPARATOR)
+                .append(Constant.INDENT.repeat(objectLevel - Constant.ONE_OBJECT_LEVEL))
+                .append(suffix);
+    }
+
+    @Override
+    public StringBuilder getResultingString() {
+        createResultingString();
         objectLevel--;
-        return str;
+        return stringBuilder;
     }
 }
