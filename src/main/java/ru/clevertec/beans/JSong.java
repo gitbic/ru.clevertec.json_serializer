@@ -40,8 +40,9 @@ public class JSong {
         return processedObject;
     }
 
-    public void setProcessedObject(Object processedObject) {
+    public JSong setProcessedObject(Object processedObject) {
         this.processedObject = processedObject;
+        return this;
     }
 
     public String serialize() throws IllegalAccessException {
@@ -90,7 +91,7 @@ public class JSong {
             String fieldValue = serializeDifferentObject(entry.getValue());
 
             mainJsonBuilder.append(fieldName)
-                    .append(Constant.COLON)
+                    .append(getColon())
                     .append(fieldValue);
         }
         return mainJsonBuilder.getResultingString();
@@ -113,13 +114,20 @@ public class JSong {
             String fieldValue = serializeDifferentObject(fieldElement);
 
             mainJsonBuilder.append(fieldName)
-                    .append(Constant.COLON)
+                    .append(getColon())
                     .append(fieldValue);
 
             field.setAccessible(false);
         }
         return mainJsonBuilder.getResultingString();
     }
+
+    private String getColon() {
+        return prettyString
+                ? Constant.PRETTY_COLON
+                : Constant.COLON;
+    }
+
 
     private static boolean isValueNeedDoubleQuote(Class<?> fieldType) {
         return (!fieldType.isPrimitive() || fieldType == char.class)
@@ -135,7 +143,8 @@ public class JSong {
                 && fieldType != Array.class
                 && fieldType != String.class
                 && fieldType != StringBuffer.class
-                && fieldType != Boolean.class;
+                && fieldType != Boolean.class
+                && fieldType != Character.class;
     }
 
     private String serializeDifferentObject(Object object) throws IllegalAccessException {

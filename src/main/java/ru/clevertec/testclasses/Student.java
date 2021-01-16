@@ -1,71 +1,57 @@
 package ru.clevertec.testclasses;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Student {
     private String name;
     private double stipend;
     private List<String> specs;
-    private String[] languages;
+    LanguageKnowledge[] languageKnowledges;
     private Map<String, Boolean> passedTests;
-    private PhysiologicalData physiologicalData;
+    private PhysData physiologicalData;
 
-    public Student(String name, double stipend, List<String> specs, String[] languages,
-                   Map<String, Boolean> passedTests, PhysiologicalData physiologicalData) {
+    public Student(String name, double stipend, List<String> specs, LanguageKnowledge[] languageKnowledges,
+                   Map<String, Boolean> passedTests, PhysData physiologicalData) {
         this.name = name;
         this.stipend = stipend;
         this.specs = specs;
-        this.languages = languages;
+        this.languageKnowledges = languageKnowledges;
         this.passedTests = passedTests;
         this.physiologicalData = physiologicalData;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", stipend=" + stipend +
+                ", specs=" + specs +
+                ", languageKnowledges=" + Arrays.toString(languageKnowledges) +
+                ", passedTests=" + passedTests +
+                ", physiologicalData=" + physiologicalData +
+                '}';
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Double.compare(student.stipend, stipend) == 0 &&
+                Objects.equals(name, student.name) &&
+                Objects.equals(specs, student.specs) &&
+                Arrays.equals(languageKnowledges, student.languageKnowledges) &&
+                Objects.equals(passedTests, student.passedTests) &&
+                Objects.equals(physiologicalData, student.physiologicalData);
     }
 
-    public double getStipend() {
-        return stipend;
-    }
-
-    public void setStipend(double stipend) {
-        this.stipend = stipend;
-    }
-
-    public List<String> getSpecs() {
-        return specs;
-    }
-
-    public void setSpecs(List<String> specs) {
-        this.specs = specs;
-    }
-
-    public String[] getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(String[] languages) {
-        this.languages = languages;
-    }
-
-    public Map<String, Boolean> getPassedTests() {
-        return passedTests;
-    }
-
-    public void setPassedTests(Map<String, Boolean> passedTests) {
-        this.passedTests = passedTests;
-    }
-
-    public PhysiologicalData getPhysiologicalData() {
-        return physiologicalData;
-    }
-
-    public void setPhysiologicalData(PhysiologicalData physiologicalData) {
-        this.physiologicalData = physiologicalData;
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(name, stipend, specs, passedTests, physiologicalData);
+        result = 31 * result + Arrays.hashCode(languageKnowledges);
+        return result;
     }
 }

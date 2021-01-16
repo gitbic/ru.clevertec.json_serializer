@@ -1,105 +1,68 @@
 package ru.clevertec;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import ru.clevertec.beans.JSong;
-import ru.clevertec.testclasses.PhysiologicalData;
-import ru.clevertec.testclasses.Sex;
-import ru.clevertec.testclasses.SomeTypes;
-import ru.clevertec.testclasses.Student;
+import ru.clevertec.testclasses.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Runner {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccessException {
 
+        Student student = createStudentObject();
 
-        Gson gsonFormatted = new GsonBuilder().setPrettyPrinting().create();
-        Gson gsonString = new Gson();
+        System.out.println("-----------Custom json serializer------------");
+        JSong jSong = new JSong(student);
+        String jSongSimpleString = jSong.serialize();
+        System.out.println(jSongSimpleString);
+        System.out.println();
 
+        System.out.println("-----------Gogle json serializer------------");
+        Gson gson = new Gson();
+        String gsonSimpleString = gson.toJson(student);
+        System.out.println(gsonSimpleString);
 
-        SomeTypes someTypes = new SomeTypes();
-
-
-
-        JSong jSong = new JSong(someTypes);
+        System.out.println("-----------Custom json serializer------------");
         jSong.setPrettyString(true);
-        String stringJSong = "";
+        String jSongPrettyString = jSong.serialize();
+        System.out.println(jSongPrettyString);
 
-        try{
-            stringJSong = jSong.serialize();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        System.out.println("-----------Gogle json serializer------------");
+        gson = gson.newBuilder().setPrettyPrinting().create();
+        String gsonPrettyString = gson.toJson(student);
+        System.out.println(gsonPrettyString);
 
-        System.out.println(gsonFormatted.toJson(someTypes));
-        System.out.println(stringJSong);
+        //--------------------------------------------------
+        System.out.println("-----------Custom json serialization multi-level object------------");
+        SomeTypes someTypes = new SomeTypes();
+        jSongPrettyString = jSong.setProcessedObject(someTypes).serialize();
+        System.out.println(jSongPrettyString);
 
-//        SomeTypes st = gsonString.fromJson(stringJSong, SomeTypes.class);
-//        System.out.println(Arrays.toString(st.integerArray));
+    }
 
-        //--
-//        for (Map.Entry<Integer, String> integerStringEntry : st.map.entrySet()) {
-//            System.out.println(integerStringEntry.getKey());
-//            System.out.println(integerStringEntry.getValue());
-//        }
+    public static Student createStudentObject() {
 
-
-
-
-
-
-
-
-
-
-        PhysiologicalData physiologicalData =
-                new PhysiologicalData(18, 70.4, 175.2, Sex.MALE);
-//
-//        JSong jSong = new JSong(physiologicalData);
-//        jSong.setPrettyString(true);
-//
-//        String customPhysData = "";
-//        try {
-//            customPhysData = jSong.serializeObject();
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-//
-//// get simple string phisData
-//        String physData = gsonFormatted.toJson(physiologicalData);
-//        System.out.println(physData);
-//        System.out.println(customPhysData);
-
-// test custom Json serialize
-//        PhysiologicalData pd = gsonString.fromJson(physData, PhysiologicalData.class);
-//        PhysiologicalData pd = gsonString.fromJson(customPhysData, PhysiologicalData.class);
-//        Sex s = pd.getSex();
-//        System.out.println(s);
-
-
+        PhysData physData = new PhysData(18, 70.4, 175.2, Sex.MALE);
 
         List<String> specs = new ArrayList<>();
         specs.add("engineer");
         specs.add("constructor");
         specs.add("master-flomaster");
 
-        String[] languages = {"Russian", "Eanglish", "Italian"};
+        LanguageKnowledge[] languageKnowledges = {
+                new LanguageKnowledge("Russian", 8, KnowledgeRate.EXCELLENT),
+                new LanguageKnowledge("Eanglish", 7, KnowledgeRate.GOOD),
+                new LanguageKnowledge("Italian", 1, KnowledgeRate.BAD)
+        };
 
         Map<String, Boolean> passedTests = new HashMap<>();
         passedTests.put("math", true);
         passedTests.put("physics", false);
         passedTests.put("sopromat", true);
 
-        Student student = new Student("Alex", 152, specs, languages, passedTests, physiologicalData);
-
-// get formatted json string from object Student
-//        String studentJson = gsonFormatted.toJson(student);
-//        System.out.println(studentJson);
-
-// get object Student from string with saved condition
-//        Student studentFromJson = gsonFormatted.fromJson(studentJson, Student.class);
-
-
+        return new Student("Alex", 152, specs, languageKnowledges, passedTests, physData);
     }
 }

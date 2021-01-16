@@ -1,5 +1,6 @@
 package ru.clevertec.beans;
 
+import ru.clevertec.constants.Constant;
 import ru.clevertec.interfaces.CustomStringJoiner;
 
 public class SimpleStringJoiner implements CustomStringJoiner {
@@ -22,12 +23,6 @@ public class SimpleStringJoiner implements CustomStringJoiner {
         return stringBuilder;
     }
 
-//    public StringBuilder append(StringBuilder sb) {
-//        addDelimiter();
-//        stringBuilder.append(sb);
-//        return stringBuilder;
-//    }
-
     @Override
     public String toString() {
         return prefix + stringBuilder.toString() + suffix;
@@ -35,7 +30,7 @@ public class SimpleStringJoiner implements CustomStringJoiner {
 
     @Override
     public void addDelimiter() {
-        if (stringBuilder.length() > 0) {
+        if (stringBuilder.length() > Constant.STRING_BUILDER_ZERO_LENGTH) {
             stringBuilder.append(delimiter);
         }
     }
