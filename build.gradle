@@ -17,3 +17,12 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.6'
     testCompile 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
 }
+
+//jar {
+//    manifest {
+//        attributes 'Main-Class': 'Runner'
+//    }
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}

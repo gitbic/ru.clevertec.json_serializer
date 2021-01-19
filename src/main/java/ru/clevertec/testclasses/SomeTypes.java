@@ -25,7 +25,7 @@ public class SomeTypes {
 
 //    public List<String> list1 = new ArrayList<>(Arrays.asList("one", null, "three"));
 //    public List<Boolean> list3 = List.of(true, false);
-//public List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3));
+//public List<Integer> list = new ArrayList<>(Arrays.asList(null, 2, 3));
 
 
 //        public Map<Integer, String> map = Map.of(1, "value1", 2, "value2");
@@ -36,7 +36,7 @@ public class SomeTypes {
 //    PhysData physiologicalData =
 //            new PhysData(18, 70.4, 175.2, Sex.MALE);
 
-//    BigDecimal bigDecimal = new BigDecimal("45").add(new BigDecimal("6"));
+//    BigDecimal bigDecimal = new BigDecimal("45.23414").add(new BigDecimal("6.1213"));
 //
 //    List<PhysiologicalData> list = new ArrayList<>(Arrays.asList(physiologicalData, physiologicalData));
 //
@@ -46,19 +46,6 @@ public class SomeTypes {
     public List<Box> boxList = new ArrayList<>(Arrays.asList(new Box(), new Box()));
     public List<List<Box>> listOfLists = new ArrayList<>(Arrays.asList(boxList, boxList));
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SomeTypes someTypes = (SomeTypes) o;
-        return boxList.equals(someTypes.boxList) &&
-                listOfLists.equals(someTypes.listOfLists);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(boxList, listOfLists);
-    }
 
 
 

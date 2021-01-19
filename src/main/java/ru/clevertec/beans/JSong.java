@@ -46,7 +46,7 @@ public class JSong {
     }
 
     public String serialize() throws IllegalAccessException {
-        return serializeObject(this.processedObject).toString();
+        return serializeDifferentObject(this.processedObject).toString();
     }
 
     private StringBuilder serializeCollection(Object currentObject) throws IllegalAccessException {
@@ -60,6 +60,7 @@ public class JSong {
             StringBuilder fieldValue = serializeDifferentObject(collectionElement);
             jsonBuilder.append(fieldValue);
         }
+
         return jsonBuilder.getResultingString();
     }
 
@@ -94,6 +95,7 @@ public class JSong {
                     .append(getColon())
                     .append(fieldValue);
         }
+
         return jsonBuilder.getResultingString();
     }
 
@@ -172,7 +174,7 @@ public class JSong {
 
         } else {
 
-           String strValue = object.toString();
+            String strValue = object.toString();
 
             if (isValueNeedDoubleQuote(object.getClass())) {
                 value.append(String.format(Format.DOUBLE_QUOTE_VALUE, strValue));
