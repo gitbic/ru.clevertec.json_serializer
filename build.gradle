@@ -1,12 +1,15 @@
 plugins {
-    id 'java'
+    id 'java-gradle-plugin'
+    id 'maven-publish'
 }
 
-group 'org.example'
+group 'ru.clevertec'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    jcenter()
+    mavenLocal()
 }
 
 test {
@@ -18,11 +21,14 @@ dependencies {
     testCompile 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
 }
 
-//jar {
-//    manifest {
-//        attributes 'Main-Class': 'Runner'
-//    }
-//    from {
-//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//}
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'ru.clevertec'
+            artifactId = 'json-serializer'
+            version = '1.0'
+
+            from components.java
+        }
+    }
+}
